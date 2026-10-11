@@ -12,6 +12,7 @@ struct LoginPasswordView: View {
     
     @State private var password = ""
     @FocusState private var isFieldFocused: Bool
+    @State private var showPassword = false
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -22,29 +23,40 @@ struct LoginPasswordView: View {
             Text("\(email)로 가입중")
                 .font(.system(size: 12, weight: .medium))
                 .lineSpacing(4)
-                .foregroundStyle(.gray280)
+                .foregroundStyle(.gray300)
                 .padding(.top, 13)
             
-            SecureField(
-                "password",
-                text: $password,
-                prompt: Text("비밀번호 입력")
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundStyle(.gray250)
-            )
+            Group {
+                if showPassword {
+                    TextField(
+                        "password",
+                        text: $password,
+                        prompt: Text("비밀번호 입력")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.gray250)
+                    )
+                } else {
+                    SecureField(
+                        "password",
+                        text: $password,
+                        prompt: Text("비밀번호 입력")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.gray250)
+                    )
+                }
+            }
             .focused($isFieldFocused)
             .font(.system(size: 12, weight: .regular))
             .foregroundStyle(.black)
             .tint(.starbucksGreen)
-            .textContentType(.emailAddress)
-            .keyboardType(.emailAddress)
+            .textContentType(.password)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .frame(height: 47)
             .padding(.horizontal, 15)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused ? .black : .clear, lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused ? .gray200 : .clear, lineWidth: 1))
             .overlay(alignment: .trailing) {
                 if isFieldFocused {
                     HStack(spacing: 4) {
@@ -57,11 +69,40 @@ struct LoginPasswordView: View {
                             }
                         }
                         
+                        if !password.isEmpty {
+                            Button {
+                                showPassword.toggle()
+                            } label: {
+                                Image(showPassword ? .eyeEnabled : .eyeDisabled)
+                            }
+                        }
+                        
                     }
                     .padding(.trailing, 16)
                 }
             }
             .padding(.top, 27)
+            
+            HStack(spacing: 5) {
+                Image(.checkCircleDisabled)
+                    .frame(width: 13, height: 13)
+                
+                Text("영문, 숫자, 특수문자 포함 10글자 이상")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.gray300)
+            }
+            .padding(.top, 13)
+            
+            Button {
+                
+            } label: {
+                Text("닉네임 설정")
+                    .font(.system(size: 12, weight: .regular))
+                    .underline()
+                    .foregroundStyle(.gray300)
+            }
+            .padding(.top, 40)
+            .frame(maxWidth: .infinity)
             
             Spacer()
             
@@ -85,4 +126,8 @@ struct LoginPasswordView: View {
         
     }
     
+}
+
+#Preview {
+    LoginPasswordView(email: "email.com")
 }
