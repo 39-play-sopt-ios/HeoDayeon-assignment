@@ -10,13 +10,19 @@ import SwiftUI
 struct LoginPasswordView: View {
     let email: String
     
-    @State private var password = ""
+    
     @FocusState private var isFieldFocused: Bool
-    @State private var showPassword = false
     @State private var showSheet = false
+    
+    @State private var password = ""
+    @State private var showPassword = false
+    private var isPasswordValid: Bool {
+        password.wholeMatch(of: /(?=.*[A-Za-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{10,}/) != nil
+    }
+    
     @State private var nickname = ""
-    @State private var setNickname = false
-    private var isSignUpCompleted: Bool { !password.isEmpty && setNickname}
+    @State private var isNickNameSetted = false
+    private var isSignUpCompleted: Bool { isPasswordValid && isNickNameSetted}
     
     var body: some View {
         NavigationStack {
@@ -89,20 +95,28 @@ struct LoginPasswordView: View {
                 .padding(.top, 27)
                 
                 HStack(spacing: 5) {
-                    Image(.checkCircleDisabled)
-                        .frame(width: 13, height: 13)
-                    
-                    Text("영문, 숫자, 특수문자 포함 10글자 이상")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundStyle(.gray300)
-                }
+                    if isPasswordValid {
+                        Image(.checkCircleEnabled)
+                            .frame(width: 13, height: 13)
+                        
+                        Text("영문, 숫자, 특수문자 포함 10글자 이상")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.starbucksGreen)
+                    } else {
+                        Image(.checkCircleDisabled)
+                            .frame(width: 13, height: 13)
+                        
+                        Text("영문, 숫자, 특수문자 포함 10글자 이상")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.gray300)
+                    }                }
                 .padding(.top, 13)
                 
                 Button {
                     showSheet = true
                 } label: {
                     Group {
-                        if setNickname {
+                        if isNickNameSetted {
                             Text("\(nickname)")
                         } else {
                             Text("닉네임 설정")
@@ -129,6 +143,7 @@ struct LoginPasswordView: View {
                         .background(isSignUpCompleted ? .starbucksGreen : .gray200)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
+                .disabled(!isSignUpCompleted)
                 .padding(.bottom, 47)
             }
             .padding(.horizontal, 30)
@@ -165,7 +180,7 @@ struct LoginPasswordView: View {
                     Spacer()
                     
                     Button {
-                        setNickname = true
+                        isNickNameSetted = true
                         showSheet = false
                     } label: {
                         Text("완료")
