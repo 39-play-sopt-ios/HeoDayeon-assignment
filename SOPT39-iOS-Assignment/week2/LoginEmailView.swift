@@ -83,7 +83,9 @@ struct LoginEmailView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.backgroundWhite)
             .ignoresSafeArea()
+            .navigationBarBackButtonHidden()
         }
+        
     }
 }
 

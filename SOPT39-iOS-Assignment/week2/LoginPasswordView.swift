@@ -16,172 +16,174 @@ struct LoginPasswordView: View {
     @State private var showSheet = false
     @State private var nickname = ""
     @State private var setNickname = false
+    private var isSignUpCompleted: Bool { !password.isEmpty && setNickname}
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 0) {
-            Text("사용할 비밀번호를\n입력해주세요")
-                .font(.system(size: 23, weight: .semibold))
-                .padding(.top, 152)
-            
-            Text("\(email)로 가입중")
-                .font(.system(size: 12, weight: .medium))
-                .lineSpacing(4)
-                .foregroundStyle(.gray300)
-                .padding(.top, 13)
-            
-            Group {
-                if showPassword {
-                    TextField(
-                        "password",
-                        text: $password,
-                        prompt: Text("비밀번호 입력")
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(.gray250)
-                    )
-                } else {
-                    SecureField(
-                        "password",
-                        text: $password,
-                        prompt: Text("비밀번호 입력")
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(.gray250)
-                    )
-                }
-            }
-            .focused($isFieldFocused)
-            .font(.system(size: 12, weight: .regular))
-            .foregroundStyle(.black)
-            .tint(.starbucksGreen)
-            .textContentType(.password)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-            .frame(height: 47)
-            .padding(.horizontal, 15)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused ? .gray200 : .clear, lineWidth: 1))
-            .overlay(alignment: .trailing) {
-                if isFieldFocused {
-                    HStack(spacing: 4) {
-                        if !password.isEmpty {
-                            Button {
-                                password = ""
-                            } label: {
-                                Image(.closeCircle)
-                                    .frame(width: 24, height: 24)
-                            }
-                        }
-                        
-                        if !password.isEmpty {
-                            Button {
-                                showPassword.toggle()
-                            } label: {
-                                Image(showPassword ? .eyeEnabled : .eyeDisabled)
-                            }
-                        }
-                        
-                    }
-                    .padding(.trailing, 16)
-                }
-            }
-            .padding(.top, 27)
-            
-            HStack(spacing: 5) {
-                Image(.checkCircleDisabled)
-                    .frame(width: 13, height: 13)
-                
-                Text("영문, 숫자, 특수문자 포함 10글자 이상")
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundStyle(.gray300)
-            }
-            .padding(.top, 13)
-            
-            Button {
-                showSheet = true
-            } label: {
-                Group {
-                    if setNickname {
-                        Text("\(nickname)")
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(.gray300)
-                    } else {
-                        Text("닉네임 설정")
-                            .font(.system(size: 12, weight: .regular))
-                            .underline()
-                            .foregroundStyle(.gray300)
-                    }
-                }
-                    
-            }
-            .padding(.top, 40)
-            .frame(maxWidth: .infinity)
-            
-            Spacer()
-            
-            NavigationLink {
-                
-            } label: {
-                Text("다음")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(password.isEmpty ? .gray300 : .white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
-                    .background(password.isEmpty ? .gray200 : .starbucksGreen)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
-            .padding(.bottom, 47)
-        }
-        .padding(.horizontal, 30)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.backgroundWhite)
-        .ignoresSafeArea()
-        .sheet(isPresented: $showSheet) {
+        NavigationStack {
             VStack (alignment: .leading, spacing: 0) {
-                Text("닉네임을 입력해주세요")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .padding(.leading, 22)
-                    .padding(.top, 47)
+                Text("사용할 비밀번호를\n입력해주세요")
+                    .font(.system(size: 23, weight: .semibold))
+                    .padding(.top, 152)
                 
-                TextField(
-                    "nickname",
-                    text: $nickname,
-                    prompt: Text("닉네임을 입력해주세요")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundStyle(.gray250)
-                )
+                Text("\(email)로 가입중")
+                    .font(.system(size: 12, weight: .medium))
+                    .lineSpacing(4)
+                    .foregroundStyle(.gray300)
+                    .padding(.top, 13)
+                
+                Group {
+                    if showPassword {
+                        TextField(
+                            "password",
+                            text: $password,
+                            prompt: Text("비밀번호 입력")
+                                .font(.system(size: 12, weight: .regular))
+                                .foregroundStyle(.gray250)
+                        )
+                    } else {
+                        SecureField(
+                            "password",
+                            text: $password,
+                            prompt: Text("비밀번호 입력")
+                                .font(.system(size: 12, weight: .regular))
+                                .foregroundStyle(.gray250)
+                        )
+                    }
+                }
+                .focused($isFieldFocused)
                 .font(.system(size: 12, weight: .regular))
                 .foregroundStyle(.black)
-                .tint(.darkGreen)
-                .padding(.horizontal, 15)
-                .frame(maxWidth: .infinity)
+                .tint(.starbucksGreen)
+                .textContentType(.password)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
                 .frame(height: 47)
+                .padding(.horizontal, 15)
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.horizontal, 29)
-                .padding(.top, 19)
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused ? .gray200 : .clear, lineWidth: 1))
+                .overlay(alignment: .trailing) {
+                    if isFieldFocused {
+                        HStack(spacing: 4) {
+                            if !password.isEmpty {
+                                Button {
+                                    password = ""
+                                } label: {
+                                    Image(.closeCircle)
+                                        .frame(width: 24, height: 24)
+                                }
+                            }
+                            
+                            if !password.isEmpty {
+                                Button {
+                                    showPassword.toggle()
+                                } label: {
+                                    Image(showPassword ? .eyeEnabled : .eyeDisabled)
+                                }
+                            }
+                            
+                        }
+                        .padding(.trailing, 16)
+                    }
+                }
+                .padding(.top, 27)
+                
+                HStack(spacing: 5) {
+                    Image(.checkCircleDisabled)
+                        .frame(width: 13, height: 13)
+                    
+                    Text("영문, 숫자, 특수문자 포함 10글자 이상")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.gray300)
+                }
+                .padding(.top, 13)
+                
+                Button {
+                    showSheet = true
+                } label: {
+                    Group {
+                        if setNickname {
+                            Text("\(nickname)")
+                        } else {
+                            Text("닉네임 설정")
+                                .underline()
+                        }
+                    }
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.gray300)
+                    
+                }
+                .padding(.top, 40)
+                .frame(maxWidth: .infinity)
                 
                 Spacer()
                 
-                Button {
-                    setNickname = true
-                    showSheet = false
+                NavigationLink {
+                    SignUpCompletedView(name: nickname)
                 } label: {
-                    Text("완료")
+                    Text("가입하기")
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.starbucksGreen)
+                        .foregroundStyle(isSignUpCompleted ? .white : .gray300)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(isSignUpCompleted ? .starbucksGreen : .gray200)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 56)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.horizontal, 20)
                 .padding(.bottom, 47)
-                
             }
-            .presentationDetents([.fraction(0.5)])
-            .presentationBackground(.darkGreen)
-            .presentationDragIndicator(.visible)
+            .padding(.horizontal, 30)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.backgroundWhite)
+            .ignoresSafeArea()
+            .navigationBarBackButtonHidden()
+            .sheet(isPresented: $showSheet) {
+                VStack (alignment: .leading, spacing: 0) {
+                    Text("닉네임을 입력해주세요")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .padding(.leading, 22)
+                        .padding(.top, 47)
+                    
+                    TextField(
+                        "nickname",
+                        text: $nickname,
+                        prompt: Text("닉네임을 입력해주세요")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.gray250)
+                    )
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(.black)
+                    .tint(.darkGreen)
+                    .padding(.horizontal, 15)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 47)
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 29)
+                    .padding(.top, 19)
+                    
+                    Spacer()
+                    
+                    Button {
+                        setNickname = true
+                        showSheet = false
+                    } label: {
+                        Text("완료")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundStyle(.starbucksGreen)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 56)
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 47)
+                    
+                }
+                .presentationDetents([.fraction(0.5)])
+                .presentationBackground(.darkGreen)
+                .presentationDragIndicator(.visible)
+            }
         }
         
     }
