@@ -11,6 +11,13 @@ struct LoginEmailView: View {
     @State private var email = ""
     @FocusState private var isFieldFocused: Bool
     
+    private var isEmailValid: Bool {
+        let pattern =
+        "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]+$"
+        
+        return email.range(of: pattern, options: .regularExpression) != nil
+    }
+    
     var body: some View {
         NavigationStack {
             VStack (alignment: .leading, spacing: 0) {
@@ -55,7 +62,7 @@ struct LoginEmailView: View {
                                         .frame(width: 24, height: 24)
                                 }
                             }
-                            Image(email.isEmpty ? .checkDisabled : .checkEnabled)
+                            Image(isEmailValid ? .checkEnabled : .checkDisabled)
                                 .frame(width: 24, height: 24)
                         }
                         .padding(.trailing, 16)
@@ -89,6 +96,6 @@ struct LoginEmailView: View {
     }
 }
 
-#Preview {
-    LoginEmailView()
-}
+//#Preview {
+//    LoginEmailView()
+//}
