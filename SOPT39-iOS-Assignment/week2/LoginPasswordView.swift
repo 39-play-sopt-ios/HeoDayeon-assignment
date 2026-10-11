@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct LoginPasswordView: View {
+    let email: String
+    
     @State private var password = ""
     @FocusState private var isFieldFocused: Bool
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
-            Text("로그인/가입하려는\n이메일을 입력해주세요")
+            Text("사용할 비밀번호를\n입력해주세요")
                 .font(.system(size: 23, weight: .semibold))
                 .padding(.top, 152)
             
-            Text("결제 등 중요 알림, 로그인, 비밀번호 찾기에 필요해요.\n사용 중인 이메일을 입력해주세요")
+            Text("\(email)로 가입중")
                 .font(.system(size: 12, weight: .medium))
                 .lineSpacing(4)
                 .foregroundStyle(.gray280)
@@ -83,8 +85,4 @@ struct LoginPasswordView: View {
         
     }
     
-}
-
-#Preview {
-    LoginPasswordView()
 }

@@ -66,7 +66,7 @@ struct LoginEmailView: View {
                 Spacer()
                 
                 NavigationLink {
-                    LoginPasswordView()
+                    LoginPasswordView(email: email)
                 } label: {
                     Text("다음")
                         .font(.system(size: 18, weight: .medium))
