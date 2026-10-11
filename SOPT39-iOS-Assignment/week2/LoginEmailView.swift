@@ -77,14 +77,14 @@ struct LoginEmailView: View {
                 } label: {
                     Text("다음")
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(email.isEmpty ? .gray300 : .white)
+                        .foregroundStyle(isEmailValid ? .white : .gray300)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
-                        .background(email.isEmpty ? .gray200 : .starbucksGreen)
+                        .background(isEmailValid ? .starbucksGreen : .gray200)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .padding(.bottom, 47)
-                .disabled(email.isEmpty)
+                .disabled(!isEmailValid)
             }
             .padding(.horizontal, 30)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
