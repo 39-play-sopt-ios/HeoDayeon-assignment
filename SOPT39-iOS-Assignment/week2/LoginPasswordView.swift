@@ -13,6 +13,9 @@ struct LoginPasswordView: View {
     @State private var password = ""
     @FocusState private var isFieldFocused: Bool
     @State private var showPassword = false
+    @State private var showSheet = false
+    @State private var nickname = ""
+    @State private var setNickname = false
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -94,12 +97,21 @@ struct LoginPasswordView: View {
             .padding(.top, 13)
             
             Button {
-                
+                showSheet = true
             } label: {
-                Text("닉네임 설정")
-                    .font(.system(size: 12, weight: .regular))
-                    .underline()
-                    .foregroundStyle(.gray300)
+                Group {
+                    if setNickname {
+                        Text("\(nickname)")
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundStyle(.gray300)
+                    } else {
+                        Text("닉네임 설정")
+                            .font(.system(size: 12, weight: .regular))
+                            .underline()
+                            .foregroundStyle(.gray300)
+                    }
+                }
+                    
             }
             .padding(.top, 40)
             .frame(maxWidth: .infinity)
@@ -123,8 +135,57 @@ struct LoginPasswordView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.backgroundWhite)
         .ignoresSafeArea()
+        .sheet(isPresented: $showSheet) {
+            VStack (alignment: .leading, spacing: 0) {
+                Text("닉네임을 입력해주세요")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .padding(.leading, 22)
+                    .padding(.top, 47)
+                
+                TextField(
+                    "nickname",
+                    text: $nickname,
+                    prompt: Text("닉네임을 입력해주세요")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(.gray250)
+                )
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(.black)
+                .tint(.darkGreen)
+                .padding(.horizontal, 15)
+                .frame(maxWidth: .infinity)
+                .frame(height: 47)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .padding(.horizontal, 29)
+                .padding(.top, 19)
+                
+                Spacer()
+                
+                Button {
+                    setNickname = true
+                    showSheet = false
+                } label: {
+                    Text("완료")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(.starbucksGreen)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 56)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .padding(.horizontal, 20)
+                .padding(.bottom, 47)
+                
+            }
+            .presentationDetents([.fraction(0.5)])
+            .presentationBackground(.darkGreen)
+            .presentationDragIndicator(.visible)
+        }
         
     }
+    
     
 }
 

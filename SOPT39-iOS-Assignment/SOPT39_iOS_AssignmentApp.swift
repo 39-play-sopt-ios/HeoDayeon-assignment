@@ -11,7 +11,7 @@ import SwiftUI
 struct SOPT39_iOS_AssignmentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginEmailView()
         }
     }
 }
