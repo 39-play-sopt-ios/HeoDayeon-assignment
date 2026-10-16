@@ -19,14 +19,11 @@ struct SignUpCompletedView: View {
                 .frame(width: 261.16, height: 200.52)
                 .padding(.top, 112)
             
-            Group{
-                Text("\(name)님")
-                    .padding(.top, 93.48)
-                Text("가입을 환영합니다!")
-                
-            }
-            .font(.system(size: 23, weight: .semibold))
-            .foregroundStyle(.white)
+            Text("\(name)님\n가입을 환영합니다!")
+                .padding(.top, 93.48)
+                .multilineTextAlignment(.center)
+                .font(.system(size: 23, weight: .semibold))
+                .foregroundStyle(.white)
             
             Spacer()
             
