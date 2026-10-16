@@ -16,9 +16,6 @@ struct LoginPasswordView: View {
     
     @State private var password = ""
     @State private var showPassword = false
-    private var isPasswordExist: Bool {
-        showPassword || !showPassword
-    }
     private var isPasswordValid: Bool {
         password.wholeMatch(of: /(?=.*[A-Za-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{10,}/) != nil
     }
@@ -71,9 +68,9 @@ struct LoginPasswordView: View {
             .padding(.horizontal, 15)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused || isPasswordExist ? .gray200 : .clear, lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(isFieldFocused || !password.isEmpty ? .gray200 : .clear, lineWidth: 1))
             .overlay(alignment: .trailing) {
-                if isFieldFocused || isPasswordExist {
+                if isFieldFocused || !password.isEmpty {
                     HStack(spacing: 4) {
                         if !password.isEmpty {
                             Button {
