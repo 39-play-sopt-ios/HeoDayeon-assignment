@@ -8,30 +8,42 @@
 import SwiftUI
 
 struct StarbucksTabBar: View {
-    @Binding var selectedTab: MainTab
+    @State private var selectedTab: MainTab = .home
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-            tabButton(title: "Home", image: "home_gray", tab: .home)
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selectedTab) {
+                Text("Home").tag(MainTab.home)
+                Text("Pay").tag(MainTab.pay)
+                OrderView().tag(MainTab.order)
+                Text("Gift").tag(MainTab.gift)
+                Text("Other").tag(MainTab.other)
+            }
             
-            Spacer()
-            
-            tabButton(title: "Pay", image: "pay_gray", tab: .pay)
-            
-            Spacer()
-            
-            tabButton(title: "Order", image: "order_gray", tab: .order)
-            
-            Spacer()
-            
-            tabButton(title: "Gift", image: "gift_gray", tab: .gift)
-            
-            Spacer()
-            
-            tabButton(title: "Other", image: "other_gray", tab: .other)
+            HStack(alignment: .center, spacing: 0) {
+                tabButton(title: "Home", image: "home_gray", tab: .home)
+                
+                Spacer()
+                
+                tabButton(title: "Pay", image: "pay_gray", tab: .pay)
+                
+                Spacer()
+                
+                tabButton(title: "Order", image: "order_gray", tab: .order)
+                
+                Spacer()
+                
+                tabButton(title: "Gift", image: "gift_gray", tab: .gift)
+                
+                Spacer()
+                
+                tabButton(title: "Other", image: "other_gray", tab: .other)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 7)
+            .background(.white)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 7)
+        
     }
     
     @ViewBuilder
@@ -53,3 +65,4 @@ struct StarbucksTabBar: View {
         }
     }
 }
+
