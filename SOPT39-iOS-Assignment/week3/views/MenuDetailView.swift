@@ -18,7 +18,7 @@ struct MenuDetailView: View {
                     Image(menu.imageName)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 333)
+                        .frame(height: 383)
                         .frame(maxWidth: .infinity)
                         .clipped()
                     
@@ -106,7 +106,7 @@ struct MenuDetailView: View {
                 .padding(.horizontal, 21)
             }
             .ignoresSafeArea(edges: .top)
-            .toolbar(.hidden, for: .navigationBar)
+            .toolbar(.hidden, for: .navigationBar, .tabBar)
             
             HStack(alignment: .center, spacing: 20) {
                 Image("favAdd_filled")

@@ -19,6 +19,7 @@ enum MenuType {
 }
 
 struct OrderView: View {
+    @Binding var isDetailView: Bool
     @State private var selectedMenu: Menu = .allMenu
     @State private var selectedType: MenuType = .beverage
     
@@ -68,6 +69,8 @@ struct OrderView: View {
             }
             .navigationDestination(for: BeverageMenuModel.self) { menu in
                 MenuDetailView(menu: menu)
+                    .onAppear { isDetailView = true }
+                    .onDisappear { isDetailView = false }
             }
         }
     }

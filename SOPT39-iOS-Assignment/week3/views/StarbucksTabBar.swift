@@ -9,45 +9,48 @@ import SwiftUI
 
 struct StarbucksTabBar: View {
     @State private var selectedTab: MainTab = .home
+    @State private var isDetailView = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
                 Text("Home").tag(MainTab.home)
                 Text("Pay").tag(MainTab.pay)
-                OrderView().tag(MainTab.order)
+                OrderView(isDetailView: $isDetailView).tag(MainTab.order)
                 Text("Gift").tag(MainTab.gift)
                 Text("Other").tag(MainTab.other)
             }
             
             
-            VStack(alignment: .center, spacing: 0) {
-                if selectedTab == .order {
-                    SelectStoreBar()
+            if !isDetailView {
+                VStack(alignment: .center, spacing: 0) {
+                    if selectedTab == .order {
+                        SelectStoreBar()
+                    }
+                    
+                    HStack(alignment: .center, spacing: 0) {
+                        tabButton(title: "Home", image: "home_gray", tab: .home)
+                        
+                        Spacer()
+                        
+                        tabButton(title: "Pay", image: "pay_gray", tab: .pay)
+                        
+                        Spacer()
+                        
+                        tabButton(title: "Order", image: "order_gray", tab: .order)
+                        
+                        Spacer()
+                        
+                        tabButton(title: "Gift", image: "gift_gray", tab: .gift)
+                        
+                        Spacer()
+                        
+                        tabButton(title: "Other", image: "other_gray", tab: .other)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 7)
+                    .background(.white)
                 }
-                
-                HStack(alignment: .center, spacing: 0) {
-                    tabButton(title: "Home", image: "home_gray", tab: .home)
-                    
-                    Spacer()
-                    
-                    tabButton(title: "Pay", image: "pay_gray", tab: .pay)
-                    
-                    Spacer()
-                    
-                    tabButton(title: "Order", image: "order_gray", tab: .order)
-                    
-                    Spacer()
-                    
-                    tabButton(title: "Gift", image: "gift_gray", tab: .gift)
-                    
-                    Spacer()
-                    
-                    tabButton(title: "Other", image: "other_gray", tab: .other)
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 7)
-                .background(.white)
             }
         }
     }
