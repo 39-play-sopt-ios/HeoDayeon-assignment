@@ -50,6 +50,7 @@ struct MenuListView: View {
                     .resizable()
                     .frame(width: 21, height: 21)
             }
+            .padding(.horizontal, 21)
             .padding(.bottom, 28)
             
             ScrollView {
@@ -60,12 +61,14 @@ struct MenuListView: View {
                         .padding(.bottom, 28)
                     
                     ForEach(menus) { menu in
-                        MenuRowView(menu: menu)
+                        NavigationLink(value: menu) {
+                            MenuRowView(menu: menu)
+                        }
                     }
                 }
             }
+            .padding(.horizontal, 21)
         }
         .toolbar(.hidden, for: .navigationBar)
-        .padding(.horizontal, 21)
     }
 }

@@ -23,41 +23,52 @@ struct OrderView: View {
     @State private var selectedType: MenuType = .beverage
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .center) {
-                Spacer()
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .center) {
+                    Spacer()
+                    
+                    Image("search_gray")
+                        .resizable()
+                        .frame(width: 21, height: 21)
+                        .padding(.trailing, 21)
+                }
+                .frame(height: 49)
                 
-                Image("search_gray")
-                    .resizable()
-                    .frame(width: 21, height: 21)
-                    .padding(.trailing, 21)
-            }
-            .frame(height: 49)
-            
-            Text("Order")
-                .padding(.leading, 18)
-                .padding(.vertical, 14)
-                .font(.system(size: 28, weight: .semibold))
-                .backgroundStyle(.white)
-            
-            MenuTabBar(selectedTab: $selectedMenu)
-            
-            Divider()
-                .overlay(.gray150)
-            
-            switch selectedMenu {
-            case .allMenu:
-                AllMenuTypeTabBar(selectedTab: $selectedType)
+                Text("Order")
+                    .padding(.leading, 18)
+                    .padding(.vertical, 14)
+                    .font(.system(size: 28, weight: .semibold))
+                    .backgroundStyle(.white)
                 
-            case .myMenu:
-                Text("my menu")
+                MenuTabBar(selectedTab: $selectedMenu)
+                
+                Divider()
+                    .overlay(.gray150)
+                
+                ScrollView {
+                    switch selectedMenu {
+                    case .allMenu:
+                        VStack(alignment: .leading, spacing: 0) {
+                            AllMenuTypeTabBar(selectedTab: $selectedType)
+                            
+                            Divider()
+                                .overlay(.gray150)
+                            
+                            CategoryListView()
+                        }
+                        
+                    case .myMenu:
+                        Text("my menu")
+                    }
+                }
             }
-            
-            Divider()
-                .overlay(.gray150)
-            
-            Spacer()
+            .navigationDestination(for: Category.self) { category in
+                MenuListView(category: category)
+            }
+            .navigationDestination(for: BeverageMenuModel.self) { menu in
+                MenuDetailView(menu: menu)
+            }
         }
-        
     }
 }
