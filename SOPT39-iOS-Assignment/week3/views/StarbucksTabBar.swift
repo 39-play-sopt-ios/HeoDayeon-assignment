@@ -20,30 +20,36 @@ struct StarbucksTabBar: View {
                 Text("Other").tag(MainTab.other)
             }
             
-            HStack(alignment: .center, spacing: 0) {
-                tabButton(title: "Home", image: "home_gray", tab: .home)
+            
+            VStack(alignment: .center, spacing: 0) {
+                if selectedTab == .order {
+                    SelectStoreBar()
+                }
                 
-                Spacer()
-                
-                tabButton(title: "Pay", image: "pay_gray", tab: .pay)
-                
-                Spacer()
-                
-                tabButton(title: "Order", image: "order_gray", tab: .order)
-                
-                Spacer()
-                
-                tabButton(title: "Gift", image: "gift_gray", tab: .gift)
-                
-                Spacer()
-                
-                tabButton(title: "Other", image: "other_gray", tab: .other)
+                HStack(alignment: .center, spacing: 0) {
+                    tabButton(title: "Home", image: "home_gray", tab: .home)
+                    
+                    Spacer()
+                    
+                    tabButton(title: "Pay", image: "pay_gray", tab: .pay)
+                    
+                    Spacer()
+                    
+                    tabButton(title: "Order", image: "order_gray", tab: .order)
+                    
+                    Spacer()
+                    
+                    tabButton(title: "Gift", image: "gift_gray", tab: .gift)
+                    
+                    Spacer()
+                    
+                    tabButton(title: "Other", image: "other_gray", tab: .other)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 7)
+                .background(.white)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 7)
-            .background(.white)
         }
-        
     }
     
     @ViewBuilder
@@ -61,7 +67,6 @@ struct StarbucksTabBar: View {
                     .font(.system(size: 12, weight: .medium))
             }
             .foregroundStyle(selectedTab == tab ? .starbucksGreen : .gray290)
-
         }
     }
 }
