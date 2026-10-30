@@ -59,7 +59,7 @@ struct OrderView: View {
                         }
                         
                     case .myMenu:
-                        Text("my menu")
+                        MyMenuView()
                     }
                 }
             }
